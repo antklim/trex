@@ -1,3 +1,3 @@
-# proto-deno
+# trex
 
-A template repository for projects in 🦕 [Deno](https://deno.land/).
+Keeps your 🦕 [Deno](https://deno.land/) packages up to date.
