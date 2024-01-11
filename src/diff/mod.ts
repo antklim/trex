@@ -1,4 +1,4 @@
-import { Dependency } from "../deps/index.ts";
+import { Dependency } from "../deps/mod.ts";
 import { type Diff } from "./Diff.ts";
 
 export * from "./Diff.ts";
