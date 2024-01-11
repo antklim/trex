@@ -1,7 +1,7 @@
 import { Dependency } from "../deps/index.ts";
-import { Diff } from "./diff.ts";
+import { type Diff } from "./Diff.ts";
 
-export { type Diff } from "./diff.ts";
+export * from "./Diff.ts";
 
 export const diff = (deps: Dependency[]): Diff[] => {
   return [];
