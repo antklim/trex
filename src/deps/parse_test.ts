@@ -1,5 +1,31 @@
-import { parseImport } from "./parse.ts";
+import { parse, parseImport } from "./parse.ts";
 import { assert } from "../../deps.ts";
+
+const testDepsFile = "./test/deps.ts";
+
+Deno.test("parse dependencies file", () => {
+  const result = parse(testDepsFile);
+
+  assert.assertEquals(result, {
+    deps: [
+      { name: "std", version: "0.211.0" },
+      { name: "std", version: "0.211.0" },
+      { name: "oak", version: "v12.5.0" },
+    ],
+  });
+});
+
+// Deno.test("parse invalid dependencies file returns errors", () => {
+//   const result = parse(testDepsFile);
+
+//   assert.assertEquals(result, {
+//     deps: [
+//       { name: "std", version: "0.211.0" },
+//       { name: "oak", version: "v12.6.2" },
+//     ],
+//     errors: [new Error("foo bar")],
+//   });
+// });
 
 Deno.test("parseImport std registry url", () => {
   const result = parseImport(
@@ -15,7 +41,7 @@ Deno.test("parseImport x registry url", () => {
   assert.assertEquals(result, { name: "oak", version: "v12.6.2" });
 });
 
-Deno.test("parseImport unknown url format", () => {
+Deno.test("parseImport unknown url format returns an error", () => {
   const result = parseImport(
     'export * as assert from "https://example.com";',
   );

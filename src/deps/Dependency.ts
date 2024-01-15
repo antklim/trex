@@ -1,3 +1,5 @@
+// TODO: add deps file name and line number
+
 export interface Dependency {
   name: string;
   /// current version
