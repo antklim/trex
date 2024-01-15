@@ -3,6 +3,6 @@ import { type Diff } from "./Diff.ts";
 
 export * from "./Diff.ts";
 
-export function diff(deps: Dependency[]): Diff[] {
+export function diff(_deps: Dependency[]): Diff[] {
   return [];
 }

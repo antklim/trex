@@ -19,5 +19,5 @@ Deno.test("parseImport unknown url format", () => {
   const result = parseImport(
     'export * as assert from "https://example.com";',
   );
-  assert.assertEquals(result, new Error("Unknown URL format"));
+  assert.assertEquals(result, new Error("invalid dependency URL"));
 });
