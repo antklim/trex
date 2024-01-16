@@ -1,4 +1,4 @@
-import { Dependency } from "./Dependency.ts";
+import { Dependency, DependencyCore } from "./Dependency.ts";
 
 const depsRegistry = /https:\/\/deno\.land\/.*/;
 
@@ -11,8 +11,6 @@ interface ParseResult {
 export function parse(path: string): ParseResult {
   let t: string | null = null;
 
-  // TODO: add file name and line number to output
-
   try {
     t = Deno.readTextFileSync(path);
   } catch (err) {
@@ -20,16 +18,23 @@ export function parse(path: string): ParseResult {
   }
 
   return t.split("\n")
-    .filter((v) => /^(import|export)/.test(v))
-    .filter((v) => depsRegistry.test(v))
-    .map(parseImport)
-    .reduce((acc, v) => {
-      if (v instanceof Error) {
+    .reduce((acc, v, i) => {
+      if (/^(import|export)/.test(v) && depsRegistry.test(v)) {
+        acc.push([i + 1, v]);
+      }
+
+      return acc;
+    }, [] as [number, string][])
+    .map(([line, importStatement]) =>
+      [line, parseImport(importStatement)] as [number, DependencyCore | Error]
+    )
+    .reduce((acc, [line, dep]) => {
+      if (dep instanceof Error) {
         if (!acc.errors) acc.errors = [];
 
-        acc.errors.push(v);
+        acc.errors.push(dep);
       } else {
-        acc.deps.push(v);
+        acc.deps.push({ ...dep, referenceLine: line, referenceLocation: path });
       }
 
       return acc;
@@ -37,7 +42,7 @@ export function parse(path: string): ParseResult {
 }
 
 /** Parses import statement and returns dependency name and version */
-export function parseImport(v: string): Dependency | Error {
+export function parseImport(v: string): DependencyCore | Error {
   const match = v.match(depsRegistry);
   if (!match) return new Error("dependency URL not found");
 

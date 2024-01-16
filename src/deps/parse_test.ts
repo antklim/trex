@@ -8,9 +8,24 @@ Deno.test("parse dependencies file", () => {
 
   assert.assertEquals(result, {
     deps: [
-      { name: "std", version: "0.211.0" },
-      { name: "std", version: "0.211.0" },
-      { name: "oak", version: "v12.5.0" },
+      {
+        name: "std",
+        version: "0.211.0",
+        referenceLine: 1,
+        referenceLocation: testDepsFile,
+      },
+      {
+        name: "std",
+        version: "0.211.0",
+        referenceLine: 2,
+        referenceLocation: testDepsFile,
+      },
+      {
+        name: "oak",
+        version: "v12.5.0",
+        referenceLine: 4,
+        referenceLocation: testDepsFile,
+      },
     ],
   });
 });
