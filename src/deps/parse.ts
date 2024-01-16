@@ -1,4 +1,4 @@
-import { DependencyCore, DependencyReferenceInfo } from "./Dependency.ts";
+import { Dependency, DependencyReferenceInfo } from "./Dependency.ts";
 
 const depsRegistry = /https:\/\/deno\.land\/.*/;
 
@@ -26,7 +26,7 @@ export function parse(path: string): ParseResult {
       return acc;
     }, [] as [number, string][])
     .map(([line, importStatement]) =>
-      [line, parseImport(importStatement)] as [number, DependencyCore | Error]
+      [line, parseImport(importStatement)] as [number, Dependency | Error]
     )
     .reduce((acc, [line, dep]) => {
       if (dep instanceof Error) {
@@ -42,7 +42,7 @@ export function parse(path: string): ParseResult {
 }
 
 /** Parses import statement and returns dependency name and version */
-export function parseImport(v: string): DependencyCore | Error {
+export function parseImport(v: string): Dependency | Error {
   const match = v.match(depsRegistry);
   if (!match) return new Error("dependency URL not found");
 

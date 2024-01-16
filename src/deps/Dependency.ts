@@ -1,6 +1,5 @@
-export interface DependencyCore {
+export interface Dependency {
   name: string;
-  /** current version */
   version: string;
 }
 
@@ -11,14 +10,4 @@ interface DependencyReference {
   referenceLine: number;
 }
 
-export type DependencyReferenceInfo = DependencyCore & DependencyReference;
-
-interface DependencyRegistry {
-  latestVersion: string;
-}
-
-export type DependencyRegistryInfo = DependencyCore & DependencyRegistry;
-
-export type Dependency =
-  & DependencyReferenceInfo
-  & DependencyRegistryInfo;
+export type DependencyReferenceInfo = Dependency & DependencyReference;
