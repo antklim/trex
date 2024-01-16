@@ -1,9 +1,8 @@
 import { parse, parseImport } from "./parse.ts";
 import { assert } from "../../deps.ts";
 
-const testDepsFile = "./test/deps.ts";
-
 Deno.test("parse dependencies file", () => {
+  const testDepsFile = "./test/deps.ts";
   const result = parse(testDepsFile);
 
   assert.assertEquals(result, {
@@ -30,17 +29,24 @@ Deno.test("parse dependencies file", () => {
   });
 });
 
-// Deno.test("parse invalid dependencies file returns errors", () => {
-//   const result = parse(testDepsFile);
+Deno.test("parse invalid dependencies file returns errors", () => {
+  const testDepsFileWithError = "./test/depsWithError.ts";
+  const result = parse(testDepsFileWithError);
 
-//   assert.assertEquals(result, {
-//     deps: [
-//       { name: "std", version: "0.211.0" },
-//       { name: "oak", version: "v12.6.2" },
-//     ],
-//     errors: [new Error("foo bar")],
-//   });
-// });
+  assert.assertEquals(result.deps, [
+    {
+      name: "std",
+      version: "0.211.0",
+      referenceLine: 1,
+      referenceLocation: testDepsFileWithError,
+    },
+  ]);
+
+  assert.assertEquals(
+    result.errors?.at(0),
+    new Error("invalid dependency name format: oak"),
+  );
+});
 
 Deno.test("parseImport std registry url", () => {
   const result = parseImport(

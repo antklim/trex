@@ -1,23 +1,24 @@
 export interface DependencyCore {
   name: string;
-  /// current version
+  /** current version */
   version: string;
 }
 
-// interface DependencyReference {
-//   /// reference location - where the dependency is imported
-//   referenceLocation: string;
-//   /// reference line number
-//   referenceLine: number;
-// }
-
-export interface Dependency extends DependencyCore {
-  /// reference location - where the dependency is imported
+interface DependencyReference {
+  /** reference location - where the dependency is imported */
   referenceLocation: string;
-  /// reference line number
+  /** reference line number */
   referenceLine: number;
 }
 
-export interface DependencyInfo extends Dependency {
+export type DependencyReferenceInfo = DependencyCore & DependencyReference;
+
+interface DependencyRegistry {
   latestVersion: string;
 }
+
+export type DependencyRegistryInfo = DependencyCore & DependencyRegistry;
+
+export type Dependency =
+  & DependencyReferenceInfo
+  & DependencyRegistryInfo;
