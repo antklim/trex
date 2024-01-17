@@ -1,4 +1,4 @@
-import { parse, parseImport } from "./parse.ts";
+import { parse, parseImport } from "./mod.ts";
 import { assert } from "../../deps.ts";
 
 Deno.test("parse dependencies file", () => {
