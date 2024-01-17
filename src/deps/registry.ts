@@ -4,35 +4,54 @@ import { url } from "../../deps.ts";
 const registryUrl = Deno.env.get("REGISTRY_URL") ?? "https://apiland.deno.dev";
 const infoResource = Deno.env.get("INFO_RESOURCE") ?? "/v2/modules";
 
-/**
- * Loads a dependency info from registry.
- * Throws an error if the dependency info cannot be loaded.
- */
-export async function load(name: string): Promise<Dependency> {
+const _load = async (name: string): Promise<Dependency> => {
+  const fetchUrl = url.join(registryUrl, infoResource, name);
+
   let dep: Dependency | null = null;
+  let responseOk = false;
+  let responseStatus = 0;
+  let responseStatusText = "";
 
   {
     using client = Deno.createHttpClient({});
-    const fetchUrl = url.join(registryUrl, infoResource, name);
+
     const response = await fetch(fetchUrl, { client });
+
+    responseOk = response.ok;
+    responseStatus = response.status;
+    responseStatusText = response.statusText;
 
     const body = await response.json();
 
-    dep = { name: body.name, version: body.latest_version };
+    dep = {
+      name: body.name,
+      version: body.latest_version,
+    };
   }
 
-  if (dep == null) throw new Error(`filed to load dependency info for ${name}`);
+  if (!responseOk) {
+    throw new Error(
+      `failed to load dependency info for ${name}: ${responseStatus} ${responseStatusText}`,
+    );
+  }
 
   return dep;
+};
+
+/** Loads a dependency info from registry. */
+export async function load(name: string): Promise<Dependency | Error> {
+  try {
+    return await _load(name);
+  } catch (err) {
+    return err;
+  }
 }
 
 /** Loads all dependencies info from URLs. */
 export async function loadAll(
   depNames: string[],
 ): Promise<Record<string, Dependency | Error>> {
-  const promises = depNames.map((name) => load(name).catch((err) => err));
-
-  const result = await Promise.all(promises);
+  const result = await Promise.all(depNames.map(load));
 
   return depNames.reduce((acc, name, i) => {
     acc[name] = result[i];
