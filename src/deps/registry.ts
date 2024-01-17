@@ -5,7 +5,7 @@ const registryUrl = Deno.env.get("REGISTRY_URL") ?? "https://apiland.deno.dev";
 const infoResource = Deno.env.get("INFO_RESOURCE") ?? "/v2/modules";
 
 /**
- * Loads a dependency info from a URL.
+ * Loads a dependency info from registry.
  * Throws an error if the dependency info cannot be loaded.
  */
 export async function load(name: string): Promise<Dependency> {
@@ -26,9 +26,16 @@ export async function load(name: string): Promise<Dependency> {
   return dep;
 }
 
-/**
- * Loads all dependencies info from URLs.
- */
-export function loadAll(urls: string[]): Promise<Dependency[]> {
-  return Promise.all(urls.map(load));
+/** Loads all dependencies info from URLs. */
+export async function loadAll(
+  depNames: string[],
+): Promise<Record<string, Dependency | Error>> {
+  const promises = depNames.map((name) => load(name).catch((err) => err));
+
+  const result = await Promise.all(promises);
+
+  return depNames.reduce((acc, name, i) => {
+    acc[name] = result[i];
+    return acc;
+  }, {} as Record<string, Dependency | Error>);
 }
