@@ -52,11 +52,11 @@ export async function load(name: string): Promise<Dependency | Error> {
 /** Loads all dependencies info from URLs. */
 export async function loadAll(
   depNames: string[],
-): Promise<Record<string, Dependency | Error>> {
+): Promise<Map<string, Dependency | Error>> {
   const result = await Promise.all(depNames.map(load));
 
-  return depNames.reduce((acc, name, i) => {
-    acc[name] = result[i];
-    return acc;
-  }, {} as Record<string, Dependency | Error>);
+  return depNames.reduce(
+    (acc, name, i) => acc.set(name, result[i]),
+    new Map<string, Dependency | Error>(),
+  );
 }
