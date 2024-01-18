@@ -1,31 +1,17 @@
 import { Dependency } from "./Dependency.ts";
 import { url } from "../../deps.ts";
+import {
+  defaultRegistryResponse,
+  RegistryResponse,
+} from "./registry_response.ts";
 
 const registryUrl = Deno.env.get("REGISTRY_URL") ?? "https://apiland.deno.dev";
 const infoResource = Deno.env.get("INFO_RESOURCE") ?? "/v2/modules";
 
-interface RegistryResponse {
-  response: {
-    ok: boolean;
-    status: number;
-    statusText: string;
-  };
-  body?: {
-    name: string;
-    latest_version: string;
-  };
-}
-
 const _load = async (name: string): Promise<RegistryResponse> => {
   const fetchUrl = url.join(registryUrl, infoResource, name);
 
-  const registryResponse: RegistryResponse = {
-    response: {
-      ok: false,
-      status: 0,
-      statusText: "",
-    },
-  };
+  const registryResponse = defaultRegistryResponse();
 
   {
     const r = await fetch(fetchUrl);
