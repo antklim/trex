@@ -26,28 +26,26 @@ Deno.test("group", () => {
 
   const result = group(deps);
 
-  assert.assertEquals(result, {
-    std: [
-      {
-        name: "std",
-        version: "0.211.0",
-        referenceLine: 1,
-        referenceLocation: "test/deps.ts",
-      },
-      {
-        name: "std",
-        version: "0.211.0",
-        referenceLine: 2,
-        referenceLocation: "test/deps.ts",
-      },
-    ],
-    oak: [
+  const expected = new Map()
+    .set("std", [{
+      name: "std",
+      version: "0.211.0",
+      referenceLine: 1,
+      referenceLocation: "test/deps.ts",
+    }, {
+      name: "std",
+      version: "0.211.0",
+      referenceLine: 2,
+      referenceLocation: "test/deps.ts",
+    }])
+    .set("oak", [
       {
         name: "oak",
         version: "v12.5.0",
         referenceLine: 4,
         referenceLocation: "test/deps.ts",
       },
-    ],
-  });
+    ]);
+
+  assert.assertEquals(result, expected);
 });

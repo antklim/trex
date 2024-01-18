@@ -4,7 +4,7 @@ export interface Dependency {
 }
 
 interface DependencyReference {
-  /** reference location - where the dependency is imported */
+  /** file name where the dependency is imported */
   referenceLocation: string;
   /** reference line number */
   referenceLine: number;

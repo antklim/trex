@@ -2,15 +2,15 @@ import { DependencyReferenceInfo } from "./Dependency.ts";
 
 export function group(
   deps: DependencyReferenceInfo[],
-): Record<string, DependencyReferenceInfo[]> {
+): Map<string, DependencyReferenceInfo[]> {
   return deps.reduce(
     (acc, dep) => {
-      if (!acc[dep.name]) acc[dep.name] = [];
+      if (!acc.has(dep.name)) acc.set(dep.name, []);
 
-      acc[dep.name].push(dep);
+      acc.get(dep.name)?.push(dep);
 
       return acc;
     },
-    {} as Record<string, DependencyReferenceInfo[]>,
+    new Map() as Map<string, DependencyReferenceInfo[]>,
   );
 }
