@@ -4,47 +4,63 @@ import { url } from "../../deps.ts";
 const registryUrl = Deno.env.get("REGISTRY_URL") ?? "https://apiland.deno.dev";
 const infoResource = Deno.env.get("INFO_RESOURCE") ?? "/v2/modules";
 
-const _load = async (name: string): Promise<Dependency> => {
+interface RegistryResponse {
+  response: {
+    ok: boolean;
+    status: number;
+    statusText: string;
+  };
+  body?: {
+    name: string;
+    latest_version: string;
+  };
+}
+
+const _load = async (name: string): Promise<RegistryResponse> => {
   const fetchUrl = url.join(registryUrl, infoResource, name);
 
-  let dep: Dependency | null = null;
-  let responseOk = false;
-  let responseStatus = 0;
-  let responseStatusText = "";
+  const registryResponse: RegistryResponse = {
+    response: {
+      ok: false,
+      status: 0,
+      statusText: "",
+    },
+  };
 
   {
-    using client = Deno.createHttpClient({});
+    const r = await fetch(fetchUrl);
 
-    const response = await fetch(fetchUrl, { client });
+    registryResponse.response.ok = r.ok;
+    registryResponse.response.status = r.status;
+    registryResponse.response.statusText = r.statusText;
 
-    responseOk = response.ok;
-    responseStatus = response.status;
-    responseStatusText = response.statusText;
+    const { name, latest_version } = await r.json();
 
-    const body = await response.json();
-
-    dep = {
-      name: body.name,
-      version: body.latest_version,
-    };
+    if (r.ok) {
+      registryResponse.body = { name, latest_version };
+    }
   }
 
-  if (!responseOk) {
-    throw new Error(
-      `failed to load dependency info for ${name}: ${responseStatus} ${responseStatusText}`,
-    );
-  }
-
-  return dep;
+  return registryResponse;
 };
 
 /** Loads a dependency info from registry. */
 export async function load(name: string): Promise<Dependency | Error> {
-  try {
-    return await _load(name);
-  } catch (err) {
-    return err;
+  const { response, body } = await _load(name);
+
+  if (!response.ok) {
+    return new Error(
+      `failed to load dependency info for ${name}: ${response.status} ${response.statusText}`,
+    );
   }
+
+  if (!body) {
+    return new Error(`failed to load dependency info for ${name}`);
+  }
+
+  const dep: Dependency = { name: body.name, version: body.latest_version };
+
+  return dep;
 }
 
 /** Loads all dependencies info from URLs. */
