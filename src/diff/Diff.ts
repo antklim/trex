@@ -1,9 +1,9 @@
 export interface Diff {
-  /** file name where the dependency is imported */
-  referenceLocation: string;
+  name: string;
+  newVersion: string;
+  oldVersion: string;
   /** reference line number */
   referenceLine: number;
-  name: string;
-  oldVersion: string;
-  newVersion: string;
+  /** file name where the dependency is imported */
+  referenceLocation: string;
 }

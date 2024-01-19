@@ -1,3 +1,5 @@
+export type DependencyName = string;
+
 export interface Dependency {
   name: string;
   version: string;
