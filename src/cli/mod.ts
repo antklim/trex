@@ -34,10 +34,10 @@ export async function run() {
 
   const loadedDeps = new Map<string, Dependency>();
 
-  registryDeps.forEach((dep, name) => {
-    if (dep instanceof Error) return;
+  for (const [name, dep] of registryDeps) {
+    if (dep instanceof Error) continue;
     loadedDeps.set(name, dep);
-  });
+  }
 
   const depsDiff = diff({ localDeps: uniqueDeps, registryDeps: loadedDeps });
   console.log("Differences found:");
