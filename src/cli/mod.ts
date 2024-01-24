@@ -9,7 +9,7 @@
  */
 
 import { Dependency, group, loadAll, parse } from "../deps/mod.ts";
-import { diff } from "../diff/mod.ts";
+import { diff, display } from "../diff/mod.ts";
 
 export async function run() {
   const file = Deno.cwd() + "/deps.ts";
@@ -59,7 +59,7 @@ export async function run() {
   }
 
   console.log("✅ Differences found:");
-  console.log(depsDiff);
+  display(depsDiff);
 
   Deno.exit(0);
 }
