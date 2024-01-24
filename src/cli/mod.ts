@@ -16,31 +16,49 @@ export async function run() {
   const deps = parse(file);
 
   if (deps.errors) {
-    console.error("Errors found:");
+    console.error("❗Failed to parse dependencies file:");
     deps.errors.forEach((err) => console.error(err));
     Deno.exit(1);
   }
 
   const uniqueDeps = group(deps.deps);
-  console.log("Dependencies found:");
-  console.log(uniqueDeps);
+  if (!uniqueDeps.size) {
+    console.error("✅ No dependencies found in file:", file);
+    Deno.exit(1);
+  }
 
-  console.log("Loading dependencies info from registry...");
+  console.log("✅ Dependencies found:");
+  console.log([...uniqueDeps.keys()], "\n");
+
+  console.log("🦖 Loading dependencies info from registry...\n");
 
   const registryDeps = await loadAll([...uniqueDeps.keys()]);
 
-  console.log("Dependencies loaded:");
-  console.log(registryDeps);
+  console.log("✅ Dependencies loaded:");
+  console.log([...registryDeps.keys()], "\n");
 
   const loadedDeps = new Map<string, Dependency>();
 
   for (const [name, dep] of registryDeps) {
-    if (dep instanceof Error) continue;
+    if (dep instanceof Error) {
+      console.error("❗Error loading dependency:", name, dep.message);
+      continue;
+    }
     loadedDeps.set(name, dep);
   }
 
+  if (!loadedDeps.size) {
+    console.error("❗No dependencies loaded");
+    Deno.exit(1);
+  }
+
   const depsDiff = diff({ localDeps: uniqueDeps, registryDeps: loadedDeps });
-  console.log("Differences found:");
+  if (!depsDiff.size) {
+    console.log("🦕 All dependencies are up to date");
+    Deno.exit(0);
+  }
+
+  console.log("✅ Differences found:");
   console.log(depsDiff);
 
   Deno.exit(0);
