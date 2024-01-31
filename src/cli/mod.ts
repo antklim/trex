@@ -8,10 +8,31 @@
  * -u, --update   Update dependencies in file (default: false)
  */
 
+import { cli } from "deps";
 import { Dependency, group, loadAll, parse } from "../deps/mod.ts";
 import { diff, display } from "../diff/mod.ts";
 
 export async function run() {
+  const args = cli.parseArgs(Deno.args, {
+    boolean: ["help", "version", "update"],
+    alias: {
+      file: ["f"],
+      help: ["h"],
+      update: ["u"],
+      version: ["v"],
+    },
+    default: {
+      file: "deps.ts",
+      update: false,
+    },
+    unknown: (arg) => {
+      console.error("❗Unknown option:", arg);
+      Deno.exit(1);
+    },
+  });
+
+  console.log("🦕 Deno Dependency Checker\n");
+
   const file = Deno.cwd() + "/deps.ts";
   const deps = parse(file);
 
