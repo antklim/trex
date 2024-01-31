@@ -1,5 +1,5 @@
 import { parse, parseImport } from "./mod.ts";
-import { assert } from "../../deps.ts";
+import { assert } from "deps";
 
 Deno.test("parse dependencies file", () => {
   const testDepsFile = "./test/deps.ts";

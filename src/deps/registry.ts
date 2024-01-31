@@ -1,5 +1,5 @@
 import { Dependency } from "./Dependency.ts";
-import { url } from "../../deps.ts";
+import { url } from "deps";
 import {
   defaultRegistryResponse,
   RegistryResponse,

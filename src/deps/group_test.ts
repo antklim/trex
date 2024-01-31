@@ -1,6 +1,6 @@
 import { DependencyReferenceInfo } from "./mod.ts";
 import { group } from "./group.ts";
-import { assert } from "../../deps.ts";
+import { assert } from "deps";
 
 Deno.test("group", () => {
   const deps: DependencyReferenceInfo[] = [

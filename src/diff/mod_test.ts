@@ -1,5 +1,5 @@
 import { diff } from "./mod.ts";
-import { assert } from "../../deps.ts";
+import { assert } from "deps";
 
 Deno.test("diff", () => {
   const localDeps = new Map()

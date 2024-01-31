@@ -1,4 +1,4 @@
-import { assert } from "../../deps.ts";
+import { assert } from "deps";
 import { load, loadAll } from "./mod.ts";
 
 Deno.test({

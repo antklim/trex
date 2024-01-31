@@ -17,6 +17,9 @@
       "test"
     ]
   },
+  "imports": {
+    "deps": "./deps.ts"
+  },
   "tasks": {
     "cache": "deno cache --lock-write deps.ts",
     "cache-reload": "deno cache --reload deps.ts",
