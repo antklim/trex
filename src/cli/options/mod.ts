@@ -5,9 +5,11 @@ interface Command {
   run: () => void;
 }
 
-export type Option = "help" | "version"; //| "file" | "update";
+export type Option = "help" | "version";
 
 export const options: Record<Option, Command> = {
   help,
   version,
 };
+
+export { exec } from "./exec.ts";
