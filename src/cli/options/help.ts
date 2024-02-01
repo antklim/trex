@@ -1,4 +1,4 @@
-export function help() {
+const run = () => {
   console.log(`
   Usage: deno run --allow-net --allow-read https://deno.land/x/depsbot/src/cli/mod.ts [options]
 
@@ -8,4 +8,6 @@ export function help() {
     -f, --file     Dependency file to read and update (string [default: "deps.ts"])
     -u, --update   Update dependencies in file (default: false)
   `);
-}
+};
+
+export default { run };

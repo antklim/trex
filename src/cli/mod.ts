@@ -1,16 +1,11 @@
 /**
  * CLI entry point
- *
- * Options:
- * -h, --help     Show help
- * -v, --version  Show version number
- * -f, --file     Dependency file to read and update (string [default: "deps.ts"])
- * -u, --update   Update dependencies in file (default: false)
  */
 
 import { cli } from "deps";
 import { Dependency, group, loadAll, parse } from "../deps/mod.ts";
 import { diff, display } from "../diff/mod.ts";
+import { options } from "./options/mod.ts";
 
 export async function run() {
   const args = cli.parseArgs(Deno.args, {
@@ -32,6 +27,16 @@ export async function run() {
   });
 
   console.log("🦕 Deno Dependency Checker\n");
+
+  if (args.help) {
+    options.help.run();
+    Deno.exit(0);
+  }
+
+  if (args.version) {
+    options.version.run();
+    Deno.exit(0);
+  }
 
   const file = Deno.cwd() + "/deps.ts";
   const deps = parse(file);
@@ -81,6 +86,10 @@ export async function run() {
 
   console.log("✅ Differences found:");
   display(depsDiff);
+
+  if (args.update) {
+    console.log("\n🦕 Updating dependencies file:", file);
+  }
 
   Deno.exit(0);
 }

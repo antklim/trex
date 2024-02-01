@@ -18,7 +18,8 @@
     ]
   },
   "imports": {
-    "deps": "./deps.ts"
+    "deps": "./deps.ts",
+    "version": "./version.ts"
   },
   "tasks": {
     "cache": "deno cache --lock-write deps.ts",
