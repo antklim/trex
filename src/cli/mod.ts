@@ -1,38 +1,17 @@
-import { cli } from "deps";
-import { exec, options } from "./options/mod.ts";
+import { commands, Options, parseArgs, Runnable } from "./commands/mod.ts";
 
 export async function run() {
-  const args = cli.parseArgs(Deno.args, {
-    boolean: ["help", "version", "update"],
-    alias: {
-      file: ["f"],
-      help: ["h"],
-      update: ["u"],
-      version: ["v"],
-    },
-    default: {
-      file: "deps.ts",
-      update: false,
-    },
-    unknown: (arg) => {
-      console.error("❗Unknown option:", arg);
-      Deno.exit(1);
-    },
-  });
+  const opts: Options = parseArgs(Deno.args);
 
-  console.log("🦕 Deno Dependency Checker\n");
+  console.log("🦖 TRex - Deno Dependency Checker\n");
 
-  if (args.help) {
-    options.help.run();
-    Deno.exit(0);
-  }
+  const command: Runnable = opts.help
+    ? commands.help
+    : opts.version
+    ? commands.version
+    : commands.main;
 
-  if (args.version) {
-    options.version.run();
-    Deno.exit(0);
-  }
+  const code = await command.run(opts);
 
-  const file = Deno.cwd() + "/deps.ts";
-
-  await exec({ file, update: args.update });
+  Deno.exit(code);
 }

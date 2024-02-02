@@ -1,3 +1,4 @@
+// TODO: update usage info, change binaries name.
 const run = () => {
   console.log(`
   Usage: deno run --allow-net --allow-read https://deno.land/x/depsbot/src/cli/mod.ts [options]
@@ -8,6 +9,8 @@ const run = () => {
     -f, --file     Dependency file to read and update (string [default: "deps.ts"])
     -u, --update   Update dependencies in file (default: false)
   `);
+
+  return 0;
 };
 
 export default { run };

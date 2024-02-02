@@ -5,13 +5,9 @@
 
 import { Dependency, group, loadAll, parse } from "../../deps/mod.ts";
 import { diff, display } from "../../diff/mod.ts";
+import { Options } from "./types.ts";
 
-interface Options {
-  file: string;
-  update: boolean;
-}
-
-export async function exec({ file, update }: Options) {
+const run = async ({ file, update }: Options) => {
   const deps = parse(file);
 
   if (deps.errors) {
@@ -29,7 +25,7 @@ export async function exec({ file, update }: Options) {
   console.log("✅ Dependencies found:");
   console.log([...uniqueDeps.keys()], "\n");
 
-  console.log("🦖 Loading dependencies info from registry...\n");
+  console.log("🦕 Loading dependencies info from registry...\n");
 
   const registryDeps = await loadAll([...uniqueDeps.keys()]);
 
@@ -65,4 +61,6 @@ export async function exec({ file, update }: Options) {
   }
 
   Deno.exit(0);
-}
+};
+
+export default { run };

@@ -10,10 +10,12 @@ export interface RegistryResponse {
   };
 }
 
-export const defaultRegistryResponse = (): RegistryResponse => ({
-  response: {
-    ok: false,
-    status: 0,
-    statusText: "",
-  },
-});
+export function defaultRegistryResponse(): RegistryResponse {
+  return {
+    response: {
+      ok: false,
+      status: 0,
+      statusText: "",
+    },
+  };
+}
