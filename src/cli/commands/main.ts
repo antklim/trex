@@ -58,7 +58,7 @@ const run = async ({ file, update: shouldUpdate }: Options) => {
   display(depsDiff);
 
   if (shouldUpdate) {
-    update(depsDiff);
+    await update(depsDiff);
   }
 
   Deno.exit(0);

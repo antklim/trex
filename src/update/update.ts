@@ -6,6 +6,5 @@ export async function update(depsDiff: DiffsByLocation) {
     updateFile({ file, diffs })
   );
 
-  const result = await Promise.allSettled(updates);
-  console.log(result);
+  await Promise.allSettled(updates);
 }
