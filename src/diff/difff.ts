@@ -3,7 +3,7 @@ import {
   DependencyName,
   DependencyReferenceInfo,
 } from "../deps/mod.ts";
-import { type Diff } from "./Diff.ts";
+import { type Diff, type DiffsByLocation } from "./Diff.ts";
 
 export * from "./Diff.ts";
 
@@ -16,14 +16,14 @@ const depsRefToDiff = (newVersion: string) =>
   newVersion,
 });
 
-interface DiffProps {
+export interface DiffProps {
   localDeps: Map<DependencyName, DependencyReferenceInfo[]>;
   registryDeps: Map<DependencyName, Dependency>;
 }
 
 export function diff(
   { localDeps, registryDeps }: DiffProps,
-): Map<string, Diff[]> {
+): DiffsByLocation {
   const diffs: Diff[] = [];
 
   for (const [name, refInfo] of localDeps) {
