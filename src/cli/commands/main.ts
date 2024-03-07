@@ -5,9 +5,10 @@
 
 import { Dependency, group, loadAll, parse } from "../../deps/mod.ts";
 import { diff, display } from "../../diff/mod.ts";
+import { update } from "../../update/mod.ts";
 import { Options } from "./types.ts";
 
-const run = async ({ file, update }: Options) => {
+const run = async ({ file, update: shouldUpdate }: Options) => {
   const deps = parse(file);
 
   if (deps.errors) {
@@ -56,8 +57,8 @@ const run = async ({ file, update }: Options) => {
   console.log("✅ Differences found:");
   display(depsDiff);
 
-  if (update) {
-    console.log("\n🦕 Updating dependencies file:", file);
+  if (shouldUpdate) {
+    update(depsDiff);
   }
 
   Deno.exit(0);
