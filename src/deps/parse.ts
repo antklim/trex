@@ -2,7 +2,7 @@ import { Dependency, DependencyReferenceInfo } from "./Dependency.ts";
 
 const depsRegistry = /https:\/\/deno\.land\/.*/;
 
-interface ParseResult {
+export interface ParseResult {
   deps: DependencyReferenceInfo[];
   errors?: Error[];
 }

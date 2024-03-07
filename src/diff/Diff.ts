@@ -4,6 +4,9 @@ export interface Diff {
   oldVersion: string;
   /** reference line number */
   referenceLine: number;
-  /** file name where the dependency is imported */
+  /** file location where the dependency is imported */
   referenceLocation: string;
 }
+
+/** Maps file location to diffs */
+export type DiffsByLocation = Map<string, Diff[]>;
