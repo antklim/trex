@@ -13,12 +13,10 @@ jobs:
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Release
+        uses: codfish/semantic-release-action@v3
         with:
-          node-version: 21
-          cache: npm
-      - run: npx semantic-release --dry-run
+          dry-run: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
