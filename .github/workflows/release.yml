@@ -16,6 +16,16 @@ jobs:
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.x
+          cache: npm
+
+      - name: Install release dependencies
+        run: npm ci --prefix .github/workflows/release
+
       - name: Release
         uses: codfish/semantic-release-action@v3
         with:
