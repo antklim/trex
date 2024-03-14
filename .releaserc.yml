@@ -1,0 +1,17 @@
+branches:
+  - '+([0-9])?(.{+([0-9]),x}).x' # maintenance branches like 1.x, 2.0.x, etc
+  - main
+  - name: beta
+    prerelease: true
+  - name: 'feat/*'
+    channel: 'feat-${name.replace(/^feat\//, "")}' # name is a branch name
+    prerelease: 'feat-${name.replace(/^feat\//, "")}'
+
+plugins:
+  - - "@semantic-release/commit-analyzer"
+    - preset: 'conventionalcommits'
+  - "@semantic-release/release-notes-generator"
+  - - "@semantic-release/github"
+    - successComment: false
+      failComment: false
+      assets: "dist/*.tgz"
