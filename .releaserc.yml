@@ -8,10 +8,10 @@ branches:
     prerelease: 'feat-${name.replace(/^feat\//, "")}'
 
 plugins:
-  - - "@semantic-release/commit-analyzer"
-    - preset: 'conventionalcommits'
+  - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
   - - "@semantic-release/github"
     - successComment: false
       failComment: false
-      assets: "dist/*.tgz"
+      assets:
+        - path: "dist/**"
