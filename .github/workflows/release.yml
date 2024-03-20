@@ -17,18 +17,21 @@ jobs:
       - name: Setup repo
         uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 21.x
-          cache: npm
+      - name: Lets see what we have
+        run: ls -la
 
-      - name: Install release dependencies
-        run: npm ci
+      # - name: Use Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 21.x
+      #     cache: npm
 
-      - name: Release
-        uses: codfish/semantic-release-action@v3
-        with:
-          dry-run: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Install release dependencies
+      #   run: npm ci
+
+      # - name: Release
+      #   uses: codfish/semantic-release-action@v3
+      #   with:
+      #     dry-run: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

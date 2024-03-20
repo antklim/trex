@@ -25,6 +25,6 @@
     "cache": "deno cache --lock-write deps.ts",
     "cache-reload": "deno cache --reload deps.ts",
     "start": "deno run --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net main.ts",
-    "test": "deno test -A --unstable"
+    "test": "deno test -A"
   }
 }
