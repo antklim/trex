@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: ["main"]
 
+defaults:
+  run:
+    working-directory: .github/workflows/release
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -24,7 +28,7 @@ jobs:
           cache: npm
 
       - name: Install release dependencies
-        run: npm ci --prefix .github/workflows/release
+        run: npm ci
 
       - name: Release
         uses: codfish/semantic-release-action@v3
