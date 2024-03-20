@@ -1,4 +1,9 @@
 {
+  "name": "@principledcodes/trex",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./src/mod.ts"
+  },
   "fmt": {
     "exclude": [
       ".cache",
@@ -19,7 +24,8 @@
   },
   "imports": {
     "deps": "./deps.ts",
-    "version": "./version.ts"
+    "version": "./version.ts",
+    "src/": "./src/"
   },
   "tasks": {
     "cache": "deno cache --lock-write deps.ts",
