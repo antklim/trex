@@ -21,20 +21,17 @@ jobs:
         run: |
           cp ./.github/workflows/release/package.json .
           cp ./.github/workflows/release/package-lock.json .
-          ls -la
 
-      # - name: Use Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 21.x
-      #     cache: npm
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.x
+          cache: npm
 
-      # - name: Install release dependencies
-      #   run: npm ci
+      - name: Install release dependencies
+        run: npm ci
 
-      # - name: Release
-      #   uses: codfish/semantic-release-action@v3
-      #   with:
-      #     dry-run: true
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run semantic-release
+        run: npx semantic-release --dry-run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
