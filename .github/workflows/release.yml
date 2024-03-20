@@ -8,6 +8,7 @@ on:
       - '[0-9]+.x'
       - '[0-9]+.[0-9]+.x'
       - 'feat/*'
+
 permissions:
   contents: write
 
@@ -55,7 +56,7 @@ jobs:
       - name: Archive binaries
         uses: actions/upload-artifact@v4
         with:
-          name: outdated-metrics
+          name: trex
           path: dist/
           retention-days: 7
 
@@ -67,20 +68,18 @@ jobs:
       - name: Setup repo
         uses: actions/checkout@v4
 
-      # - name: Copy package.json and package-lock.json
-      #   run: |
-      #     cp ./.github/workflows/release/package.json .
-      #     cp ./.github/workflows/release/package-lock.json .
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 21.x
 
-      # - name: Install release dependencies
-      #   run: npm ci
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: trex
+          path: dist/
 
-      # - name: Run semantic-release
-      #   run: npx semantic-release --dry-run
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
