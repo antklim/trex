@@ -1,5 +1,5 @@
 import type { Dependency } from "./Dependency.ts";
-import { url } from "deps";
+import { join } from "@std/url";
 import {
   defaultRegistryResponse,
   type RegistryResponse,
@@ -9,7 +9,7 @@ const registryUrl = Deno.env.get("REGISTRY_URL") ?? "https://apiland.deno.dev";
 const infoResource = Deno.env.get("INFO_RESOURCE") ?? "/v2/modules";
 
 const _load = async (name: string): Promise<RegistryResponse> => {
-  const fetchUrl = url.join(registryUrl, infoResource, name);
+  const fetchUrl = join(registryUrl, infoResource, name);
 
   const registryResponse = defaultRegistryResponse();
 

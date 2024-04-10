@@ -1,5 +1,5 @@
 import { diff } from "./mod.ts";
-import { assert } from "deps";
+import { assertEquals } from "@std/assert";
 
 Deno.test("diff", () => {
   const localDeps = new Map()
@@ -54,5 +54,5 @@ Deno.test("diff", () => {
       },
     ]);
 
-  assert.assertEquals(result, expected);
+  assertEquals(result, expected);
 });

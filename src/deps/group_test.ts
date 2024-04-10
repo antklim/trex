@@ -1,6 +1,6 @@
 import type { DependencyReferenceInfo } from "./mod.ts";
 import { group } from "./group.ts";
-import { assert } from "deps";
+import { assertEquals } from "@std/assert";
 
 Deno.test("group", () => {
   const deps: DependencyReferenceInfo[] = [
@@ -47,5 +47,5 @@ Deno.test("group", () => {
       },
     ]);
 
-  assert.assertEquals(result, expected);
+  assertEquals(result, expected);
 });
