@@ -1,11 +1,11 @@
 import { parse, parseImport } from "./mod.ts";
-import { assert } from "deps";
+import { assertEquals } from "@std/assert";
 
 Deno.test("parse dependencies file", () => {
   const testDepsFile = "./test/deps.ts";
   const result = parse(testDepsFile);
 
-  assert.assertEquals(result, {
+  assertEquals(result, {
     deps: [
       {
         name: "std",
@@ -33,7 +33,7 @@ Deno.test("parse invalid dependencies file returns errors", () => {
   const testDepsFileWithError = "./test/depsWithError.ts";
   const result = parse(testDepsFileWithError);
 
-  assert.assertEquals(result.deps, [
+  assertEquals(result.deps, [
     {
       name: "std",
       version: "0.211.0",
@@ -42,7 +42,7 @@ Deno.test("parse invalid dependencies file returns errors", () => {
     },
   ]);
 
-  assert.assertEquals(
+  assertEquals(
     result.errors?.at(0),
     new Error("invalid dependency name format: oak"),
   );
@@ -52,19 +52,19 @@ Deno.test("parseImport std registry url", () => {
   const result = parseImport(
     'export * as assert from "https://deno.land/std@0.211.0/assert/mod.ts";',
   );
-  assert.assertEquals(result, { name: "std", version: "0.211.0" });
+  assertEquals(result, { name: "std", version: "0.211.0" });
 });
 
 Deno.test("parseImport x registry url", () => {
   const result = parseImport(
     'export * as assert from "https://deno.land/x/oak@v12.6.2/mod.ts";',
   );
-  assert.assertEquals(result, { name: "oak", version: "v12.6.2" });
+  assertEquals(result, { name: "oak", version: "v12.6.2" });
 });
 
 Deno.test("parseImport unknown url format returns an error", () => {
   const result = parseImport(
     'export * as assert from "https://example.com";',
   );
-  assert.assertEquals(result, new Error("invalid dependency URL"));
+  assertEquals(result, new Error("invalid dependency URL"));
 });

@@ -1,4 +1,9 @@
-import { assert } from "deps";
+import {
+  assertEquals,
+  assertInstanceOf,
+  assertMatch,
+  assertNotInstanceOf,
+} from "@std/assert";
 import { load, loadAll } from "./mod.ts";
 
 Deno.test({
@@ -6,9 +11,9 @@ Deno.test({
   ignore: Deno.env.get("REGISTRY_URL") == null,
   async fn() {
     const dep = await load("std");
-    assert.assertNotInstanceOf(dep, Error);
-    assert.assertEquals(dep.name, "std");
-    assert.assertMatch(dep.version, /\d+\.\d+\.\d+/);
+    assertNotInstanceOf(dep, Error);
+    assertEquals(dep.name, "std");
+    assertMatch(dep.version, /\d+\.\d+\.\d+/);
   },
 });
 
@@ -19,14 +24,14 @@ Deno.test({
     const deps = await loadAll(["std", "oak"]);
 
     const std = deps.get("std")!;
-    assert.assertNotInstanceOf(std, Error);
-    assert.assertEquals(std.name, "std");
-    assert.assertMatch(std.version, /\d+\.\d+\.\d+/);
+    assertNotInstanceOf(std, Error);
+    assertEquals(std.name, "std");
+    assertMatch(std.version, /\d+\.\d+\.\d+/);
 
     const oak = deps.get("oak")!;
-    assert.assertNotInstanceOf(oak, Error);
-    assert.assertEquals(oak.name, "oak");
-    assert.assertMatch(oak.version, /v\d+\.\d+\.\d+/);
+    assertNotInstanceOf(oak, Error);
+    assertEquals(oak.name, "oak");
+    assertMatch(oak.version, /v\d+\.\d+\.\d+/);
   },
 });
 
@@ -37,13 +42,13 @@ Deno.test({
     const deps = await loadAll(["std", "oaksss"]);
 
     const std = deps.get("std")!;
-    assert.assertNotInstanceOf(std, Error);
-    assert.assertEquals(std.name, "std");
-    assert.assertMatch(std.version, /\d+\.\d+\.\d+/);
+    assertNotInstanceOf(std, Error);
+    assertEquals(std.name, "std");
+    assertMatch(std.version, /\d+\.\d+\.\d+/);
 
     const oaksss = deps.get("oaksss")!;
-    assert.assertInstanceOf(oaksss, Error);
-    assert.assertMatch(
+    assertInstanceOf(oaksss, Error);
+    assertMatch(
       oaksss.message,
       /failed to load dependency info for oakss/,
     );

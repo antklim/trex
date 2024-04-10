@@ -1,4 +1,4 @@
-import { Dependency, DependencyReferenceInfo } from "./Dependency.ts";
+import type { Dependency, DependencyReferenceInfo } from "./Dependency.ts";
 
 const depsRegistry = /https:\/\/deno\.land\/.*/;
 

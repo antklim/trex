@@ -1,5 +1,5 @@
-import { type Diff } from "../diff/mod.ts";
-import { streams } from "deps";
+import type { Diff } from "src/diff/mod.ts";
+import { DelimiterStream } from "@std/streams";
 import DepsVersionTransformStream from "./DepsVersionTransformStream.ts";
 
 export interface UpdateFileProps {
@@ -15,7 +15,7 @@ export async function updateFile({ file, diffs }: UpdateFileProps) {
 
   await fr.readable
     .pipeThrough(
-      new streams.DelimiterStream(new TextEncoder().encode("\n"), {
+      new DelimiterStream(new TextEncoder().encode("\n"), {
         disposition: "suffix",
       }),
     )

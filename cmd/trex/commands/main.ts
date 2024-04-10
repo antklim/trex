@@ -3,10 +3,10 @@
  * This command collects dependencies information and updates the file if needed.
  */
 
-import { Dependency, group, loadAll, parse } from "../../deps/mod.ts";
-import { diff, display } from "../../diff/mod.ts";
-import { update } from "../../update/mod.ts";
-import { Options } from "./types.ts";
+import { type Dependency, group, loadAll, parse } from "src/deps/mod.ts";
+import { diff, display } from "src/diff/mod.ts";
+import { update } from "src/update/mod.ts";
+import type { Options } from "./types.ts";
 
 const run = async ({ file, update: shouldUpdate }: Options) => {
   const deps = parse(file);

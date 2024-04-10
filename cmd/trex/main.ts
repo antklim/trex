@@ -1,9 +1,14 @@
-import { commands, Options, parseArgs, Runnable } from "./commands/mod.ts";
+import {
+  commands,
+  type Options,
+  parseArgs,
+  type Runnable,
+} from "./commands/mod.ts";
 
-export async function run() {
+const run = async () => {
   const opts: Options = parseArgs(Deno.args);
 
-  console.log("🦖 TRex - Deno Dependency Checker\n");
+  console.log("🦖 TRex - Deno Dependency Inspector\n");
 
   const command: Runnable = opts.help
     ? commands.help
@@ -14,4 +19,8 @@ export async function run() {
   const code = await command.run(opts);
 
   Deno.exit(code);
+};
+
+if (import.meta.main) {
+  run();
 }

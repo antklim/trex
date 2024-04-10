@@ -1,4 +1,4 @@
-import { DependencyReferenceInfo } from "./Dependency.ts";
+import type { DependencyReferenceInfo } from "./Dependency.ts";
 
 export function group(
   deps: DependencyReferenceInfo[],
