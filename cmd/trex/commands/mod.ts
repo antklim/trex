@@ -1,4 +1,4 @@
-import { Command, Runnable } from "./types.ts";
+import type { Command, Runnable } from "./types.ts";
 import main from "./main.ts";
 import help from "./help.ts";
 import version from "./version.ts";

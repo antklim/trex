@@ -1,9 +1,9 @@
-import {
+import type {
   Dependency,
   DependencyName,
   DependencyReferenceInfo,
 } from "src/deps/mod.ts";
-import { type Diff, type DiffsByLocation } from "./Diff.ts";
+import type { Diff, DiffsByLocation } from "./Diff.ts";
 
 export * from "./Diff.ts";
 

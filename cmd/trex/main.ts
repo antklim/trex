@@ -1,4 +1,9 @@
-import { commands, Options, parseArgs, Runnable } from "./commands/mod.ts";
+import {
+  commands,
+  type Options,
+  parseArgs,
+  type Runnable,
+} from "./commands/mod.ts";
 
 const run = async () => {
   const opts: Options = parseArgs(Deno.args);

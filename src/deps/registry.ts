@@ -1,8 +1,8 @@
-import { Dependency } from "./Dependency.ts";
+import type { Dependency } from "./Dependency.ts";
 import { url } from "deps";
 import {
   defaultRegistryResponse,
-  RegistryResponse,
+  type RegistryResponse,
 } from "./registry_response.ts";
 
 const registryUrl = Deno.env.get("REGISTRY_URL") ?? "https://apiland.deno.dev";

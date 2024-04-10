@@ -1,5 +1,5 @@
 import { cli } from "deps";
-import { Options } from "./types.ts";
+import type { Options } from "./types.ts";
 
 export function parseArgs(args: string[]): Options {
   return cli.parseArgs(args, {

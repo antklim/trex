@@ -1,4 +1,4 @@
-import { DependencyReferenceInfo } from "./mod.ts";
+import type { DependencyReferenceInfo } from "./mod.ts";
 import { group } from "./group.ts";
 import { assert } from "deps";
 
