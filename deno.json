@@ -33,12 +33,12 @@
     "version": "./version.ts"
   },
   "tasks": {
-    "version": "echo 'export const version = \"1.0.1\";' >> ./cmd/trex/version.ts",
-    "build": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --output dist/trex --include cmd/trex/version.ts cmd/trex/main.ts",
-    "build:linux": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --target x86_64-unknown-linux-gnu --output dist/trex-linux cmd/trex/main.ts",
-    "build:win": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --target x86_64-pc-windows-msvc --output dist/trex-win.exe cmd/trex/main.ts",
-    "build:darwin-x64": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --target x86_64-apple-darwin --output dist/trex-darwin-x64 cmd/trex/main.ts",
-    "build:darwin-arm64": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --target aarch64-apple-darwin --output dist/trex-darwin-arm64 cmd/trex/main.ts",
+    "add:version": "deno run --allow-env=TREX_VERSION version.ts > cmd/trex/version.ts",
+    "build": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --output dist/trex cmd/trex/main.ts",
+    "build:linux": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target x86_64-unknown-linux-gnu --output dist/trex-linux cmd/trex/main.ts",
+    "build:win": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target x86_64-pc-windows-msvc --output dist/trex-win.exe cmd/trex/main.ts",
+    "build:darwin-x64": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target x86_64-apple-darwin --output dist/trex-darwin-x64 cmd/trex/main.ts",
+    "build:darwin-arm64": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target aarch64-apple-darwin --output dist/trex-darwin-arm64 cmd/trex/main.ts",
     "start": "deno run --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net cmd/trex/main.ts",
     "test": "deno test -A"
   }
