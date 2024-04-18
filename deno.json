@@ -28,11 +28,13 @@
     "@std/streams": "jsr:@std/streams@^0.223.0",
     "@std/url": "jsr:@std/url@^0.223.0",
     "deps": "./deps.ts",
+    "cmd/": "./cmd/",
     "src/": "./src/",
     "version": "./version.ts"
   },
   "tasks": {
-    "build": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --output dist/trex cmd/trex/main.ts",
+    "version": "echo 'export const version = \"1.0.1\";' >> ./cmd/trex/version.ts",
+    "build": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --output dist/trex --include cmd/trex/version.ts cmd/trex/main.ts",
     "build:linux": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --target x86_64-unknown-linux-gnu --output dist/trex-linux cmd/trex/main.ts",
     "build:win": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --target x86_64-pc-windows-msvc --output dist/trex-win.exe cmd/trex/main.ts",
     "build:darwin-x64": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --target x86_64-apple-darwin --output dist/trex-darwin-x64 cmd/trex/main.ts",
