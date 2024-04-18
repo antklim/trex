@@ -4,7 +4,7 @@ import {
   assertMatch,
   assertNotInstanceOf,
 } from "@std/assert";
-import { load, loadAll } from "./mod.ts";
+import { load, loadAll } from "src/deps/mod.ts";
 
 Deno.test({
   name: "load",

@@ -1,1 +1,1 @@
-export { update } from "./update.ts";
+export { update } from "src/update/update.ts";

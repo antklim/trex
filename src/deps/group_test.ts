@@ -1,5 +1,5 @@
 import type { DependencyReferenceInfo } from "./mod.ts";
-import { group } from "./group.ts";
+import { group } from "src/deps/group.ts";
 import { assertEquals } from "@std/assert";
 
 Deno.test("group", () => {

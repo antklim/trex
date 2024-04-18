@@ -1,4 +1,4 @@
-import { diff } from "./mod.ts";
+import { diff } from "src/diff/mod.ts";
 import { assertEquals } from "@std/assert";
 
 Deno.test("diff", () => {
