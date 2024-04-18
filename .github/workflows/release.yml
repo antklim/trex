@@ -16,6 +16,25 @@ env:
   DENO_DIR: .cache
 
 jobs:
+  get-next-version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.x
+
+      - run: npx semantic-release --dry-run
+        id: get-next-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      next-version: ${{ steps.get-next-version.outputs.next-version }}
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
