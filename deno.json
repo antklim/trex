@@ -27,13 +27,12 @@
     "@std/cli": "jsr:@std/cli@^0.223.0",
     "@std/streams": "jsr:@std/streams@^0.223.0",
     "@std/url": "jsr:@std/url@^0.223.0",
-    "deps": "./deps.ts",
     "cmd/": "./cmd/",
     "src/": "./src/",
     "version": "./version.ts"
   },
   "tasks": {
-    "add:version": "deno run --allow-env=TREX_VERSION version.ts > cmd/trex/version.ts",
+    "add:version": "deno run cmd/build-trex/version.ts > cmd/trex/version.ts",
     "build": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --output dist/trex cmd/trex/main.ts",
     "build:linux": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target x86_64-unknown-linux-gnu --output dist/trex-linux cmd/trex/main.ts",
     "build:win": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target x86_64-pc-windows-msvc --output dist/trex-win.exe cmd/trex/main.ts",

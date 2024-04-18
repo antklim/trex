@@ -47,9 +47,6 @@ jobs:
       - name: Setup repo
         uses: actions/checkout@v4
 
-      - name: Show the next version
-        run: echo "The new release version is ${{ needs.get-next-version.outputs.next-version }}"
-
       - name: Setup Deno
         uses: denoland/setup-deno@v1
         with:
@@ -61,8 +58,12 @@ jobs:
           path: ${{ env.DENO_DIR }}
           key: ${{ hashFiles('deno.lock') }}
 
+      - name: Show the next version
+        run: echo "The new release version is ${{ needs.get-next-version.outputs.next-version }}"
+
       - name: Build binaries
         run: |
+          echo ${{ needs.get-next-version.outputs.next-version }} | deno task add:version
           deno task build:linux
           deno task build:win
           deno task build:darwin-x64
