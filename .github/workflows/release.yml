@@ -41,10 +41,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    needs: get-next-version
 
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
+
+      - name: Show the next version
+        run: echo "The new release version is ${{ needs.get-next-version.outputs.next-version }}"
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1
@@ -106,23 +110,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs: release
+  # publish:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+  #   needs: release
 
-    permissions:
-      contents: read
-      id-token: write
+  #   permissions:
+  #     contents: read
+  #     id-token: write
 
-    steps:
-      - name: Setup repo
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Setup repo
+  #       uses: actions/checkout@v4
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
+  #     - name: Setup Deno
+  #       uses: denoland/setup-deno@v1
+  #       with:
+  #         deno-version: v1.x
 
-      - name: Publish package
-        run: deno publish
+  #     - name: Publish package
+  #       run: deno publish
