@@ -28,6 +28,9 @@ jobs:
         with:
           node-version: 21.x
 
+      - name: Install sematic-release plugins
+        run: npm i semantic-release-export-data
+
       - run: npx semantic-release --dry-run
         id: get-next-version
         env:
