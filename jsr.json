@@ -1,0 +1,23 @@
+{
+  "name": "@principledcodes/trex",
+  "version": "1.1.1",
+  "exports": {
+    ".": "./src/mod.ts"
+  },
+  "publish": {
+    "include": [
+      "src",
+      "test",
+      "README.md"
+    ]
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^0.223.0",
+    "@std/cli": "jsr:@std/cli@^0.223.0",
+    "@std/streams": "jsr:@std/streams@^0.223.0",
+    "@std/url": "jsr:@std/url@^0.223.0",
+    "cmd/": "./cmd/",
+    "src/": "./src/",
+    "version": "./version.ts"
+  }
+}
