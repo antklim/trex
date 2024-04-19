@@ -136,4 +136,4 @@ jobs:
         run: |
           echo ${{ needs.get-next-version.outputs.next-version }} | deno task add:version
           echo ${{ needs.get-next-version.outputs.next-version }} | deno task jsr:version
-          deno publish --config jsr.json --dry-run
+          deno publish --allow-dirty --config jsr.json --dry-run
