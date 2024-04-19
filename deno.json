@@ -1,9 +1,4 @@
 {
-  "name": "@principledcodes/trex",
-  "version": "1.0.0",
-  "exports": {
-    ".": "./src/mod.ts"
-  },
   "fmt": {
     "exclude": [
       ".cache",
