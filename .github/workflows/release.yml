@@ -17,6 +17,7 @@ env:
 
 jobs:
   get-next-version:
+    name: Get the next version
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -39,6 +40,7 @@ jobs:
       next-version: ${{ steps.get-next-version.outputs.new-release-version }}
 
   build:
+    name: Build binaries
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: get-next-version
@@ -57,9 +59,6 @@ jobs:
         with:
           path: ${{ env.DENO_DIR }}
           key: ${{ hashFiles('deno.lock') }}
-
-      - name: Show the next version
-        run: echo "The new release version is ${{ needs.get-next-version.outputs.next-version }}"
 
       - name: Build binaries
         run: |
@@ -89,9 +88,11 @@ jobs:
 
   # Release binaries to GitHub release
   release:
+    name: Release binaries to GitHub
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: build
+
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
@@ -115,24 +116,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Publish TS to JSR
-  # publish:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 5
-  #   needs: release
+  # Publish to JSR
+  publish:
+    name: Publish package to JSR
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: get-next-version
 
-  #   permissions:
-  #     contents: read
-  #     id-token: write
+    permissions:
+      contents: read
+      id-token: write
 
-  #   steps:
-  #     - name: Setup repo
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
 
-  #     - name: Setup Deno
-  #       uses: denoland/setup-deno@v1
-  #       with:
-  #         deno-version: v1.x
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
 
-  #     - name: Publish package
-  #       run: deno publish
+      # The following commands create version.ts file and jsr.json file with the proper version
+      - name: Publish package
+        run: |
+          echo ${{ needs.get-next-version.outputs.next-version }} | deno task add:version
+          echo ${{ needs.get-next-version.outputs.next-version }} | deno task jsr:version
+          deno publish --allow-dirty --config jsr.json
