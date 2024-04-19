@@ -87,30 +87,32 @@ jobs:
           path: dist/
           retention-days: 7
 
-  # release:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 5
-  #   needs: build
-  #   steps:
-  #     - name: Setup repo
-  #       uses: actions/checkout@v4
+  # Release binaries to GitHub release
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: build
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
 
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 21.x
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.x
 
-  #     - name: Download binaries
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: trex
-  #         path: dist/
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: trex
+          path: dist/
 
-  #     - name: Release
-  #       run: npx semantic-release
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # Publish TS to JSR
   # publish:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 5
