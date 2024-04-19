@@ -1,4 +1,17 @@
 {
+  "name": "@principledcodes/trex",
+  "version": "2.0.0",
+  "exports": {
+    ".": "./src/mod.ts"
+  },
+  "publish": {
+    "include": [
+      "src",
+      "test",
+      "deno.json",
+      "README.md"
+    ]
+  },
   "fmt": {
     "exclude": [
       ".cache",
