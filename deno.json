@@ -1,5 +1,16 @@
 {
   "name": "@principledcodes/trex",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/mod.ts"
+  },
+  "publish": {
+    "include": [
+      "src",
+      "test",
+      "README.md"
+    ]
+  },
   "fmt": {
     "exclude": [
       ".cache",
@@ -24,11 +35,11 @@
     "@std/streams": "jsr:@std/streams@^0.223.0",
     "@std/url": "jsr:@std/url@^0.223.0",
     "cmd/": "./cmd/",
-    "src/": "./src/",
-    "version": "./version.ts"
+    "src/": "./src/"
   },
   "tasks": {
     "add:version": "deno run cmd/build-trex/version.ts > cmd/trex/version.ts",
+    "jsr:version": "deno run cmd/build-trex/jsr.ts > jsr.json",
     "build": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --output dist/trex cmd/trex/main.ts",
     "build:linux": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target x86_64-unknown-linux-gnu --output dist/trex-linux cmd/trex/main.ts",
     "build:win": "deno compile --allow-env=REGISTRY_URL,INFO_RESOURCE --allow-read --allow-write --allow-net --include cmd/trex/version.ts --target x86_64-pc-windows-msvc --output dist/trex-win.exe cmd/trex/main.ts",
