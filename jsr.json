@@ -1,5 +1,4 @@
 {
-  "name": "@principledcodes/trex",
   "version": "2.0.0",
   "exports": {
     ".": "./src/mod.ts"
