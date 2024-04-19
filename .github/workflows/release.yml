@@ -114,25 +114,3 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # Publish TS to JSR
-  # publish:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 5
-  #   needs: release
-
-  #   permissions:
-  #     contents: read
-  #     id-token: write
-
-  #   steps:
-  #     - name: Setup repo
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup Deno
-  #       uses: denoland/setup-deno@v1
-  #       with:
-  #         deno-version: v1.x
-
-  #     - name: Publish package
-  #       run: deno publish
