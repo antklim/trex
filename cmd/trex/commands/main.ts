@@ -14,13 +14,13 @@ const run = async ({ file, update: shouldUpdate }: Options) => {
   if (deps.errors) {
     console.error("❗Failed to parse dependencies file:");
     deps.errors.forEach((err) => console.error(err));
-    Deno.exit(1);
+    return 1;
   }
 
   const uniqueDeps = group(deps.deps);
   if (!uniqueDeps.size) {
     console.error("✅ No dependencies found in file:", file);
-    Deno.exit(1);
+    return 0;
   }
 
   console.log("✅ Dependencies found:");
@@ -45,13 +45,13 @@ const run = async ({ file, update: shouldUpdate }: Options) => {
 
   if (!loadedDeps.size) {
     console.error("❗No dependencies loaded");
-    Deno.exit(1);
+    return 1;
   }
 
   const depsDiff = diff({ localDeps: uniqueDeps, registryDeps: loadedDeps });
   if (!depsDiff.size) {
     console.log("🦕 All dependencies are up to date");
-    Deno.exit(0);
+    return 0;
   }
 
   console.log("✅ Differences found:");
@@ -61,7 +61,7 @@ const run = async ({ file, update: shouldUpdate }: Options) => {
     await update(depsDiff);
   }
 
-  Deno.exit(0);
+  return 0;
 };
 
 export default { run };

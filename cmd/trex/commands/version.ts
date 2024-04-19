@@ -1,6 +1,7 @@
-import { version } from "version";
+const run = async () => {
+  const versionFilePath = "cmd/trex/version.ts";
+  const { version } = await import(versionFilePath);
 
-const run = () => {
   console.log(`v${version}`);
 
   return 0;

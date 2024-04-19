@@ -1,6 +1,6 @@
 import type { Diff } from "src/diff/mod.ts";
 import { DelimiterStream } from "@std/streams";
-import DepsVersionTransformStream from "./DepsVersionTransformStream.ts";
+import DepsVersionTransformStream from "src/update/DepsVersionTransformStream.ts";
 
 export interface UpdateFileProps {
   file: string;

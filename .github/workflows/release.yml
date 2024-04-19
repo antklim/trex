@@ -16,9 +16,32 @@ env:
   DENO_DIR: .cache
 
 jobs:
+  get-next-version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.x
+
+      - name: Install sematic-release plugins
+        run: npm i semantic-release-export-data
+
+      - run: npx semantic-release --dry-run
+        id: get-next-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      next-version: ${{ steps.get-next-version.outputs.new-release-version }}
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    needs: get-next-version
 
     steps:
       - name: Setup repo
@@ -35,8 +58,12 @@ jobs:
           path: ${{ env.DENO_DIR }}
           key: ${{ hashFiles('deno.lock') }}
 
+      - name: Show the next version
+        run: echo "The new release version is ${{ needs.get-next-version.outputs.next-version }}"
+
       - name: Build binaries
         run: |
+          echo ${{ needs.get-next-version.outputs.next-version }} | deno task add:version
           deno task build:linux
           deno task build:win
           deno task build:darwin-x64
@@ -60,6 +87,7 @@ jobs:
           path: dist/
           retention-days: 7
 
+  # Release binaries to GitHub release
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -73,6 +101,9 @@ jobs:
         with:
           node-version: 21.x
 
+      - name: Install sematic-release plugins
+        run: npm i semantic-release-export-data
+
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
@@ -84,23 +115,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs: release
+  # Publish TS to JSR
+  # publish:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+  #   needs: release
 
-    permissions:
-      contents: read
-      id-token: write
+  #   permissions:
+  #     contents: read
+  #     id-token: write
 
-    steps:
-      - name: Setup repo
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Setup repo
+  #       uses: actions/checkout@v4
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
+  #     - name: Setup Deno
+  #       uses: denoland/setup-deno@v1
+  #       with:
+  #         deno-version: v1.x
 
-      - name: Publish package
-        run: deno publish
+  #     - name: Publish package
+  #       run: deno publish

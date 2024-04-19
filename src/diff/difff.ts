@@ -5,7 +5,7 @@ import type {
 } from "src/deps/mod.ts";
 import type { Diff, DiffsByLocation } from "./Diff.ts";
 
-export * from "./Diff.ts";
+export * from "src/diff/Diff.ts";
 
 const depsRefToDiff = (newVersion: string) =>
 (
