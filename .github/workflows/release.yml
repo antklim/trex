@@ -101,6 +101,9 @@ jobs:
         with:
           node-version: 21.x
 
+      - name: Install sematic-release plugins
+        run: npm i semantic-release-export-data
+
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
